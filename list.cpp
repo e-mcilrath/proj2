@@ -1,5 +1,6 @@
 #include "volsort.h"
-
+using namespace std; 
+#include <iostream>
 
 List::List() {
     size = 0;
@@ -21,5 +22,8 @@ void List::push_front(const std::string &s) {
 
     temp -> next = head;
     head = temp;
+
+    cout << head -> number << endl; 
+
     size++;
 }
