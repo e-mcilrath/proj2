@@ -27,7 +27,7 @@ int qComparisonString(const void* a, const void * b){
     const Node* nodeB = *(const Node**)b;
     
     if(nodeA-> string < nodeB -> string) return -1; //sorting a and b 
-    else if( nodeA-> number > nodeB -> string ) return 1; 
+    else if( nodeA-> string > nodeB -> string ) return 1; 
     return 0;
 
 
@@ -45,7 +45,7 @@ void qsort_sort(List &l, bool numeric) {
 
     if(nodes.empty()) return;
 
-    qsort(nodes, nodes.size(), sizeof(Node), numeric ? qComparisonInt : qComparisonString);
+    qsort(nodes.data(), nodes.size(), sizeof(Node), numeric ? qComparisonInt : qComparisonString);
 
     for (size_t i = 0; i < nodes.size() - 1; i++) { // loops through entire vector and assigns appropriate next node values
         nodes[i]->next = nodes[i + 1];
@@ -53,8 +53,6 @@ void qsort_sort(List &l, bool numeric) {
 
     nodes[nodes.size() - 1]->next = nullptr; //assign the last node's next to be null
     l.head = nodes[0]; // we go to the front of the vector and assign it as head
-
-
 
 
 
