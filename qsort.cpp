@@ -45,7 +45,7 @@ void qsort_sort(List &l, bool numeric) {
 
     if(nodes.empty()) return;
 
-    qsort(nodes.data(), nodes.size(), sizeof(Node), numeric ? qComparisonInt : qComparisonString);
+    qsort(nodes.data(), nodes.size(), sizeof(Node*), numeric ? qComparisonInt : qComparisonString);
 
     for (size_t i = 0; i < nodes.size() - 1; i++) { // loops through entire vector and assigns appropriate next node values
         nodes[i]->next = nodes[i + 1];
