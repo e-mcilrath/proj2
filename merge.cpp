@@ -12,24 +12,23 @@ Node *merge(Node *left, Node *right, bool numeric);
 
 // Implementations
 
-// pick int or string
-// 
-void merge_sort(List &l, bool numeric) {
-
-
-
-
+void merge_sort(List &l, bool numeric) { // shell
+    l.head = msort(l.head, numeric);
 }
 
 Node *msort(Node *head, bool numeric) {
-    // set equal to new head, call split function
-    // if first = nullptr or next == nullptr then return
 
-    // recursion using split
+    if (head == nullptr || head->next == nullptr) { // return case
+        return head;
+    }
 
-    // slow ptr - 1 node at a time
-    // fast ptr - 2 ptr at a time 
-    // this is so slow ptr ends up at middle
+    Node *left;
+    Node *right;
+
+    split(head, left, right);    // 1. split
+    left = msort(left, numeric);        // 2. sort left
+    right = msort(right, numeric);       // 3. sort right
+    return merge(left, right, numeric); // 4. merge back into list
 
     // RELINK POINTERS!!!!!
     // dummy head, dummy tail for merge sort
@@ -37,99 +36,44 @@ Node *msort(Node *head, bool numeric) {
 
 void split(Node *head, Node *&left, Node *&right) {
 
+    if (head == nullptr || head->next ==nullptr) {
+        left = head;
+        right = nullptr;
+        return;
+    }
 
+    Node *slow = head;
+    Node *fast = head->next; // so that slow->next is the middle
+
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    left = head;
+    right = slow->next;
+
+    slow->next = nullptr;
 }
 
+
 Node *merge(Node *left, Node *right, bool numeric) {
-    Node *head, *tail;
-
+    Node head;
+    Node *tail = &head;
     
-    
-    if(numeric){ //if comparing numbers
-
-        if(left-> number <= right-> number){ 
-
-         head = left; // first we initialize the head of the list
-        left = left-> next; 
-        } 
-        else {
-            head = right; 
-            right = right-> next; 
-        }
-        
-        tail = head; // start from the beginning of the list this is our dummy tail
-        while(left!= nullptr && right != nullptr){
-
-            if(left-> number <= right-> number ) { 
-                tail->next = left; //push left to the list
-                tail = left; // move tail to point to that number
-                left = left-> next; //move to the next number in the left list
-
+    while (left != nullptr && right != nullptr) {
+            if (numeric ? left->number <= right->number : left->string <= right->string) {
+                tail->next = left;
+                left = left->next;
+            } else {
+                tail->next = right;
+                right = right->next;
             }
-            else { // repeat for right
-                tail-> next = right; 
-                tail = right; 
-                right = right -> next; 
-                
-                
-            }
-
-            
-
-
+            tail = tail->next;
         }
-        // these two check if there are any remaining numbers in either side
-        if(left != nullptr) tail-> next = left;
-        else if( right != nullptr) tail-> next = right;
-        
 
+        tail->next = (left != nullptr) ? left : right;
 
-
-    }
-
-    else { // do the same thing for merging strings
-        if(left-> string <= right-> string){ 
-
-         head = left; // first we initialize the head of the list
-        left = left-> next; 
-        } 
-        else {
-            head = right; 
-            right = right-> next; 
-        }
-        
-        tail = head; // start from the beginning of the list this is our dummy tail
-        while(left!= nullptr && right != nullptr){
-
-            if(left-> string <= right-> string ) { 
-                tail->next = left; //push left to the list
-                tail = left; // move tail to point to that number
-                left = left-> next; //move to the next number in the left list
-
-            }
-            else { // repeat for right
-                tail-> next = right; 
-                tail = right; 
-                right = right -> next; 
-                
-                
-            }
-
-            
-
-
-        }
-        // these two check if there are any remaining numbers in either side
-        if(left != nullptr) tail-> next = left;
-        else if( right != nullptr) tail-> next = right;
-
-    }
-
-
-
-
-   
-
-
+    return head.next;
 }
 
