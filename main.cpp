@@ -65,6 +65,12 @@ int main(int argc, char *argv[]) {
     List data;
     std::string line;
     
+    // Untie cin/cout from C stdio and stop flushing once per line; without this
+    // the program spends most of its time in the I/O layer rather than sorting,
+    // which makes the four modes indistinguishable when benchmarking.
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(NULL);
+
     parse_command_line_options(argc, argv, mode, numeric);
 
     while (std::getline(std::cin, line)) {
@@ -89,9 +95,9 @@ int main(int argc, char *argv[]) {
 
     for (Node * curr = data.head; curr != NULL; curr = curr->next) {
         if (numeric) {
-            std::cout << curr->number << std::endl;
+            std::cout << curr->number << '\n';
         } else {
-            std::cout << curr->string << std::endl;
+            std::cout << curr->string << '\n';
         }
     }
 

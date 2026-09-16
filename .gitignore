@@ -1,2 +1,9 @@
 # Compiled object files
 *.o
+
+# Build products
+volsort
+tester
+
+# Benchmark output
+benchmark.md
