@@ -1,7 +1,10 @@
+// list.cpp
+// Eric McIlrath, Abe Rashdan (emcilrat, arashdan)
+// the List constructor, destructor, and push_front
+
 #include "volsort.h"
-using namespace std; 
-#include <iostream>
-using namespace std;
+
+#include <string>
 
 List::List() {
     size = 0;
@@ -9,7 +12,7 @@ List::List() {
 }
 
 List::~List() {
-    while(head != nullptr) {
+    while(head != nullptr) {  //delete everything
         Node *temp = head;
         head = head -> next;
         delete temp;
@@ -19,12 +22,15 @@ List::~List() {
 void List::push_front(const std::string &s) {
     Node *temp = new Node;
     temp -> string = s;
-    temp -> number = stoi(s);
 
-    temp -> next = head;
+    try {
+        temp -> number = std::stoi(s);  //stoi throws if its not a number
+    } catch (...) {
+        temp -> number = 0;             //just use 0 then
+    }
+
+    temp -> next = head;  //point at the old front
     head = temp;
-
-    //cout << head -> number << endl; 
 
     size++;
 }

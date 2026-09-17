@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Generate a file of pseudo-random integers, one per line, for benchmarking volsort.
+"""generate.py - Eric McIlrath, Abe Rashdan (emcilrat, arashdan)
 
-Usage: generate.py COUNT OUTPUT [SEED]
+makes a file of random numbers for the benchmark
 
-Values are drawn from [1, 2^31 - 1) so that every line parses cleanly with
-std::stoi, and so that duplicate values are rare (a duplicate-heavy input
-would push the linked-list quicksort toward its O(n^2) worst case).
+usage: generate.py COUNT OUTPUT [SEED]
+
+everything stays under 2^31 so stoi is happy, and with that big of a range we
+hardly ever get duplicates, which would slow our quick sort way down.
 """
 
 import random

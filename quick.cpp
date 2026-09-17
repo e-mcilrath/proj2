@@ -1,8 +1,8 @@
 // quick.cpp
+// Eric McIlrath, Abe Rashdan (emcilrat, arashdan)
+// our own quick sort, done by relinking the nodes
 
 #include "volsort.h"
-
-#include <iostream>
 
 // Prototypes
 
@@ -20,12 +20,12 @@ Node *qsort(Node *head, bool numeric) {
         return head;
     }
 
-    Node *pivot = head;          // pivot is head 
-    Node *rest = head->next;     // dont lose the rest of the list 
+    Node *pivot = head;          // pivot is head
+    Node *rest = head->next;     // dont lose the rest of the list
     pivot->next = nullptr;       //detach head
 
     // initialize left and right
-    Node *left = nullptr;  
+    Node *left = nullptr;
     Node *right = nullptr;
 
     partition(rest, pivot, left, right, numeric);
@@ -56,7 +56,7 @@ void partition(Node *head, Node *pivot, Node *&left, Node *&right, bool numeric)
             current->next = right;  //add current node to right
             right = current;
         }
-        current = next; // interate
+        current = next; // iterate
     }
 }
 

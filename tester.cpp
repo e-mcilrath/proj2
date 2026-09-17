@@ -1,51 +1,44 @@
-#include <vector> 
-#include "volsort.h"
-#include "stl.cpp"
-#include "list.cpp"
-#include <iostream> 
-#include <iomanip> 
-#include "qsort.cpp"
+// tester.cpp
+// Eric McIlrath, Abe Rashdan (emcilrat, arashdan)
+// scratch program we used to poke at the sorts without going through main
 
-using namespace std; 
+#include "volsort.h"
+
+#include <iostream>
+#include <vector>
+
+// just including the .cpp files so we dont have to touch the Makefile
+#include "list.cpp"
+#include "stl.cpp"
+#include "qsort.cpp"
+#include "merge.cpp"
+
+using namespace std;
 
 int main(){
 
- 
-List *l; 
-l = new List; 
-vector<string> v1;
+    List l;
+    vector<string> v1;
 
+    v1.push_back("234");
+    v1.push_back("443");
+    v1.push_back("41");
+    v1.push_back("5");
+    v1.push_back("6");
+    v1.push_back("3");
+    v1.push_back("111");
+    v1.push_back("123");
 
-v1.push_back("234"); 
-v1.push_back("443");
-v1.push_back("41"); 
-v1.push_back("5");
-v1.push_back("6"); 
-v1.push_back("3");
-v1.push_back("111"); 
-v1.push_back("123");
-
-
-
-
-for(int i=0; i< v1.size(); i++){ 
-    
-    l->push_front(v1[i]);
-
-}
-
-
-
-    qsort_sort(*l,true);
-
-    //just prints everything out
-    while (l->head->next != nullptr){ 
-    
-    cout << l->head->string << ' '; 
-    l->head = l->head-> next; 
+    for(size_t i = 0; i < v1.size(); i++){
+        l.push_front(v1[i]);
     }
 
-    cout << endl; 
+    merge_sort(l, true);
 
+    //just prints everything out
+    for (Node *curr = l.head; curr != nullptr; curr = curr->next){
+        cout << curr->string << ' ';
+    }
 
+    cout << endl;
 }

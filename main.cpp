@@ -1,4 +1,6 @@
 // main.cpp
+// Eric McIlrath, Abe Rashdan (emcilrat, arashdan)
+// reads stdin into the list, sorts it with the mode you picked, prints it
 
 #include "volsort.h"
 
@@ -20,7 +22,7 @@ void usage(int status) {
     std::cout << "usage: volsort" << std::endl
               << "    -m MODE   Sorting mode (oblivious, stl, qsort, merge, quick)" << std::endl
               << "    -n        Perform numerical ordering"              << std::endl;
-    
+
     exit(status);
 }
 
@@ -64,20 +66,19 @@ int main(int argc, char *argv[]) {
     bool numeric = false;
     List data;
     std::string line;
-    
-    // Untie cin/cout from C stdio and stop flushing once per line; without this
-    // the program spends most of its time in the I/O layer rather than sorting,
-    // which makes the four modes indistinguishable when benchmarking.
+
+    // dont sync with C stdio, the reading and printing was taking longer
+    // than the actual sort
     std::ios_base::sync_with_stdio(false);
     std::cin.tie(NULL);
 
     parse_command_line_options(argc, argv, mode, numeric);
 
-    while (std::getline(std::cin, line)) {
+    while (std::getline(std::cin, line)) { // read everything into the list
       data.push_front(line);
     }
-    
-    switch (mode) {
+
+    switch (mode) {  // no case for oblivious, it doesnt sort
         case MODE_STL:
             stl_sort(data, numeric);
             break;
@@ -91,16 +92,14 @@ int main(int argc, char *argv[]) {
             quick_sort(data, numeric);
             break;
     }
-    
 
     for (Node * curr = data.head; curr != NULL; curr = curr->next) {
         if (numeric) {
-            std::cout << curr->number << '\n';
+            std::cout << curr->number << '\n';  // endl flushes every line, too slow
         } else {
             std::cout << curr->string << '\n';
         }
     }
-
 
     return 0;
 }

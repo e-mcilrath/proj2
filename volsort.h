@@ -1,4 +1,6 @@
 // volsort.h
+// Eric McIlrath, Abe Rashdan (emcilrat, arashdan)
+// the Node/List structs and the four sort functions
 
 #ifndef VOLSORT_H
 #define VOLSORT_H

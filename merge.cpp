@@ -1,8 +1,8 @@
 // merge.cpp
+// Eric McIlrath, Abe Rashdan (emcilrat, arashdan)
+// our own merge sort, done by relinking the nodes
 
 #include "volsort.h"
-
-#include <iostream>
 
 // Prototypes
 
@@ -25,18 +25,15 @@ Node *msort(Node *head, bool numeric) {
     Node *left;
     Node *right;
 
-    split(head, left, right);    // 1. split
+    split(head, left, right);           // 1. split
     left = msort(left, numeric);        // 2. sort left
-    right = msort(right, numeric);       // 3. sort right
+    right = msort(right, numeric);      // 3. sort right
     return merge(left, right, numeric); // 4. merge back into list
-
-    // RELINK POINTERS!!!!!
-    // dummy head, dummy tail for merge sort
 }
 
 void split(Node *head, Node *&left, Node *&right) {
 
-    if (head == nullptr || head->next ==nullptr) {
+    if (head == nullptr || head->next == nullptr) { // nothing to cut in half
         left = head;
         right = nullptr;
         return;
@@ -53,27 +50,26 @@ void split(Node *head, Node *&left, Node *&right) {
     left = head;
     right = slow->next;
 
-    slow->next = nullptr;
+    slow->next = nullptr; // cut them apart
 }
 
 
 Node *merge(Node *left, Node *right, bool numeric) {
-    Node head;
+    Node head;             // dummy head so we dont special case the first one
     Node *tail = &head;
-    
-    while (left != nullptr && right != nullptr) {
-            if (numeric ? left->number <= right->number : left->string <= right->string) {
-                tail->next = left;
-                left = left->next;
-            } else {
-                tail->next = right;
-                right = right->next;
-            }
-            tail = tail->next;
-        }
 
-        tail->next = (left != nullptr) ? left : right;
+    while (left != nullptr && right != nullptr) {
+        if (numeric ? left->number <= right->number : left->string <= right->string) {
+            tail->next = left;     // take from left
+            left = left->next;
+        } else {
+            tail->next = right;    // take from right
+            right = right->next;
+        }
+        tail = tail->next;
+    }
+
+    tail->next = (left != nullptr) ? left : right; // stick whatever is left on the end
 
     return head.next;
 }
-

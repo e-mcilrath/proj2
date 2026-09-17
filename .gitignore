@@ -7,3 +7,6 @@ tester
 
 # Benchmark output
 benchmark.md
+
+# Debug symbols
+*.dSYM/
